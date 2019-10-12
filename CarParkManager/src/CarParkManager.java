@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Scanner;
 
 public class CarParkManager {
 
@@ -157,5 +158,16 @@ public class CarParkManager {
 		
 		// Removing the final comma after the last parking slot and returning the output
 		return output.substring(0, output.length()-1);
+	}
+	
+	public static void main(String[] args) {
+		
+		Scanner scanner = new Scanner(System.in);
+		String stdin = scanner.next();
+		scanner.close();
+		
+		CarParkManager cpm = new CarParkManager();
+		System.out.println(cpm.processInputString(stdin));	
+//		System.out.println(cpm.processInputString("pABC,pXYZ,pEFG,u5000,c")); // Input string given in the example
 	}
 }
