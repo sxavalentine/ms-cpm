@@ -8,9 +8,9 @@ import java.util.Scanner;
 
 public class CarParkManager {
 
-	private final Map<Integer, ParkedCar> parkedCars;
-	private final List<Integer> slotsAvailable;
-	private int ticketCounter;
+	private final Map<Integer, ParkedCar> parkedCars; // In a database this would be a table with 3 columns: ticket_number(PK), plate and parking_slot_number.
+	private final List<Integer> slotsAvailable; // In a database, this would be a table with a single column, where each row represents a parking slot.
+	private int ticketCounter; // In a database this would be an auto-generate, auto-increment value.
 	
 	// Inner class that represent a record in the table parkedCars
 	private class ParkedCar {
