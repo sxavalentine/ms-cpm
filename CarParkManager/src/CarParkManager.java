@@ -1,7 +1,9 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class CarParkManager {
 
@@ -40,5 +42,39 @@ public class CarParkManager {
 		parkedCars = new HashMap<Integer, ParkedCar>();
 		slotsAvailable = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
 		ticketCounter = 5000;
+	}
+	
+	public void park(String plate) {
+		if (parkedCars.size() < 10) {// If the car park is not full
+			
+			List<Integer> slotsTaken = new ArrayList<>();
+			List<String> registeredPlates = new ArrayList<>();
+			for (Entry<Integer, ParkedCar> entry: parkedCars.entrySet()) {
+				slotsTaken.add(entry.getValue().getParkingSlot());
+				registeredPlates.add(entry.getValue().getPlate());
+			}
+			
+			if (!registeredPlates.contains(plate)) {// If the license plate is not already present in the car park
+				ParkedCar car = new ParkedCar();
+				
+				// Setting as parking slot the very first one in the list slotsAvailable that is not included in the list slotsTaken
+				car.setParkingSlot(slotsAvailable
+						.stream()
+						.filter(x -> !slotsTaken.contains(x))
+						.findFirst()
+						.orElse(null));
+				car.setPlate(plate);
+				car.setTicketNumber(ticketCounter);
+				
+				parkedCars.put(ticketCounter, car);
+				ticketCounter++;
+			}
+			else {
+				System.out.println("Invalid command: plate " + plate + " is already present in the car park");
+			}
+		}
+		else {
+			System.out.println("Invalid command: car park is full");
+		}
 	}
 }
