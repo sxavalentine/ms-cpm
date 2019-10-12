@@ -106,4 +106,56 @@ public class CarParkManager {
 			parkingSlot++;
 		}
 	}
+	
+	// For this method, I decided to strictly follow the example, so I will only accept as valid commands the ones starting with lower case letter
+	public String processInputString(String stdin) {
+		String[] commands = stdin.split(",");
+		
+		for (int i=0; i < commands.length; i++) {
+			String command = commands[i].trim();
+			
+			// park
+			if (command.startsWith("p")) {
+				park(command.substring(1));
+			}
+			// unpark
+			else if (command.startsWith("u")) {
+				try {
+					int ticketNumber = Integer.parseInt(command.substring(1));
+					unpark(ticketNumber);
+				}
+				catch (Exception e) {
+					System.out.println("Invalid command: ticket number " + command.substring(1) + " is not numeric");
+				}
+			}
+			// compact
+			else if (command.equals("c")) {
+				compact();
+			}
+		}
+		
+		String output = "";
+		
+		// Getting the list of parked cars from the map
+		List<ParkedCar> sortedParkedCars = new ArrayList<>();
+		for (Entry<Integer, ParkedCar> entry: parkedCars.entrySet()) {
+			sortedParkedCars.add(entry.getValue());
+		}
+
+		// Sorting the cars based on their parking slot using lambda expression
+		sortedParkedCars.sort((ParkedCar o1, ParkedCar o2) -> o1.getParkingSlot().compareTo(o2.getParkingSlot()));
+		
+		// Completing the list sortedParkedCars with the eventual free parking slots
+		while (sortedParkedCars.size() < 10) {
+			sortedParkedCars.add(null);
+		}
+		
+		// Composing the output string
+		for (ParkedCar car : sortedParkedCars) {
+			output += car != null ? car.getPlate() + "," : ",";
+		}
+		
+		// Removing the final comma after the last parking slot and returning the output
+		return output.substring(0, output.length()-1);
+	}
 }
