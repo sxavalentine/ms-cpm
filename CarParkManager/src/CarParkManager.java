@@ -77,4 +77,15 @@ public class CarParkManager {
 			System.out.println("Invalid command: car park is full");
 		}
 	}
+	
+	public void unpark(Integer ticketNumber) {
+		// If the ticket number is actually registered in the map
+		if (parkedCars.containsKey(ticketNumber)) {
+			// Removing the unparked car from the map
+			parkedCars.remove(ticketNumber);
+		}
+		else {
+			System.out.println("Invalid command: ticket number " + ticketNumber + " not present in the car park");
+		}
+	}
 }
