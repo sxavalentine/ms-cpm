@@ -88,4 +88,22 @@ public class CarParkManager {
 			System.out.println("Invalid command: ticket number " + ticketNumber + " not present in the car park");
 		}
 	}
+	
+	public void compact() {
+		// Getting the list of parked cars from the map
+		List<ParkedCar> sortedParkedCars = new ArrayList<>();
+		for (Entry<Integer, ParkedCar> entry: parkedCars.entrySet()) {
+			sortedParkedCars.add(entry.getValue());
+		}
+
+		// Sorting the cars based on their parking slot using lambda expression
+		sortedParkedCars.sort((ParkedCar o1, ParkedCar o2) -> o1.getParkingSlot().compareTo(o2.getParkingSlot()));
+		
+		// Re-set the parking slot number of each car
+		int parkingSlot = 1;
+		for (ParkedCar car : sortedParkedCars) {
+			car.setParkingSlot(parkingSlot);
+			parkingSlot++;
+		}
+	}
 }
